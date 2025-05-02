@@ -1,5 +1,7 @@
 package com.estudos.todolistservice.entity;
 
+import com.estudos.todolistservice.enums.PrioridadeEnum;
+import com.estudos.todolistservice.enums.StatusEnum;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,8 +13,10 @@ public class Tarefa {
     private Long id;
     private String nome;
     private String descricao;
-    private Boolean realizado;
-    private int prioridade;
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
+    @Enumerated(EnumType.STRING)
+    private PrioridadeEnum prioridade;
 
     public Long getId() {
         return id;
@@ -34,19 +38,19 @@ public class Tarefa {
         this.descricao = descricao;
     }
 
-    public Boolean getRealizado() {
-        return realizado;
+    public StatusEnum getStatus() {
+        return status;
     }
 
-    public void setRealizado(Boolean realizado) {
-        this.realizado = realizado;
+    public void setStatus(StatusEnum status) {
+        this.status = status;
     }
 
-    public Integer getPrioridade() {
+    public PrioridadeEnum getPrioridade() {
         return prioridade;
     }
 
-    public void setPrioridade(Integer prioridade) {
+    public void setPrioridade(PrioridadeEnum prioridade) {
         this.prioridade = prioridade;
     }
 }
