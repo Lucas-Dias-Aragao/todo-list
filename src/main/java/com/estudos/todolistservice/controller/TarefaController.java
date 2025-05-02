@@ -3,7 +3,6 @@ package com.estudos.todolistservice.controller;
 import com.estudos.todolistservice.entity.Tarefa;
 import com.estudos.todolistservice.service.TarefaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
