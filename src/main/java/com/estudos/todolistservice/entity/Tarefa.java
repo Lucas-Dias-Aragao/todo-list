@@ -1,18 +1,24 @@
 package com.estudos.todolistservice.entity;
 
+import com.estudos.todolistservice.enums.PrioridadeEnum;
+import com.estudos.todolistservice.enums.StatusEnum;
+import com.estudos.todolistservice.validation.annotation.EnumValid;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_tarefa")
 public class Tarefa {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "O nome da tarefa deve ser informado")
     private String nome;
     private String descricao;
-    private Boolean realizado;
-    private int prioridade;
+    @EnumValid(enumClass = StatusEnum.class, message = "Status inválido")
+    private String status;
+    @EnumValid(enumClass = PrioridadeEnum.class, message = "Prioridade inválida")
+    private String prioridade;
 
     public Long getId() {
         return id;
@@ -34,19 +40,19 @@ public class Tarefa {
         this.descricao = descricao;
     }
 
-    public Boolean getRealizado() {
-        return realizado;
+    public String getStatus() {
+        return status;
     }
 
-    public void setRealizado(Boolean realizado) {
-        this.realizado = realizado;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public Integer getPrioridade() {
+    public String getPrioridade() {
         return prioridade;
     }
 
-    public void setPrioridade(Integer prioridade) {
+    public void setPrioridade(String prioridade) {
         this.prioridade = prioridade;
     }
 }
