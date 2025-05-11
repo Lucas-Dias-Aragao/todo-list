@@ -15,13 +15,10 @@ public class Tarefa {
     @NotBlank(message = "O nome da tarefa deve ser informado")
     private String nome;
     private String descricao;
-
-    @Enumerated(EnumType.STRING)
     @EnumValid(enumClass = StatusEnum.class, message = "Status inválido")
-    private StatusEnum status;
-    @Enumerated(EnumType.STRING)
+    private String status;
     @EnumValid(enumClass = PrioridadeEnum.class, message = "Prioridade inválida")
-    private PrioridadeEnum prioridade;
+    private String prioridade;
 
     public Long getId() {
         return id;
@@ -43,19 +40,19 @@ public class Tarefa {
         this.descricao = descricao;
     }
 
-    public StatusEnum getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public PrioridadeEnum getPrioridade() {
+    public String getPrioridade() {
         return prioridade;
     }
 
-    public void setPrioridade(PrioridadeEnum prioridade) {
+    public void setPrioridade(String prioridade) {
         this.prioridade = prioridade;
     }
 }

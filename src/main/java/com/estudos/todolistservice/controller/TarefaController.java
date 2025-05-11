@@ -1,11 +1,16 @@
 package com.estudos.todolistservice.controller;
 
+import com.estudos.todolistservice.dto.TarefaResponseDTO;
 import com.estudos.todolistservice.entity.Tarefa;
+import com.estudos.todolistservice.exception.BusinessException;
 import com.estudos.todolistservice.service.TarefaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/tarefas")
@@ -14,8 +19,9 @@ public class TarefaController {
     private TarefaService service;
 
     @PostMapping
-    List<Tarefa> create(@RequestBody Tarefa tarefa) {
-        return service.create(tarefa);
+    public ResponseEntity<TarefaResponseDTO> create(@Valid @RequestBody Tarefa tarefa) {
+        TarefaResponseDTO response = service.create(tarefa);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
@@ -24,8 +30,9 @@ public class TarefaController {
     }
 
     @PutMapping
-    List<Tarefa> update(@RequestBody Tarefa tarefa) {
-        return service.update(tarefa);
+    ResponseEntity<TarefaResponseDTO> update(@Valid @RequestBody Tarefa tarefa) {
+        TarefaResponseDTO response = service.update(tarefa);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

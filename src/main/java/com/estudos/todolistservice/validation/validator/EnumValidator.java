@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class EnumValidator implements ConstraintValidator<EnumValid, Enum<?>> {
+public class EnumValidator implements ConstraintValidator<EnumValid, String> {
     private Set<String> valoresValidos;
 
     @Override
@@ -19,8 +19,9 @@ public class EnumValidator implements ConstraintValidator<EnumValid, Enum<?>> {
     }
 
     @Override
-    public boolean isValid(Enum<?> value, ConstraintValidatorContext context) {
-        if (value == null) return true;
-        return valoresValidos.contains(value.name());
+    public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
+        if (s == null) return true;
+        return valoresValidos.contains(s);
     }
+
 }
