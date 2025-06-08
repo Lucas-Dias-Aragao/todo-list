@@ -5,8 +5,8 @@ import com.estudos.todolistservice.entity.Tarefa;
 import com.estudos.todolistservice.enums.PrioridadeEnum;
 import com.estudos.todolistservice.enums.StatusEnum;
 import com.estudos.todolistservice.exception.BusinessException;
+import com.estudos.todolistservice.mapper.TarefaMapper;
 import com.estudos.todolistservice.repository.TarefaRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -21,20 +21,19 @@ public class TarefaService {
     private TarefaRepository repository;
 
     @Transactional
-    public TarefaDTO create(@Valid TarefaDTO dados) {
-        Tarefa tarefa = new Tarefa(dados);
-        repository.save(tarefa);
-        return new TarefaDTO(tarefa);
+    public TarefaDTO create(TarefaDTO dados) {
+        Tarefa tarefa = TarefaMapper.toEntity(dados);
+        tarefa = repository.save(tarefa);
+        return TarefaMapper.toDTO(tarefa);
     }
 
     public List<TarefaDTO> list() {
         Sort sort = Sort.by("prioridade").descending().and(Sort.by("nome").ascending());
         return repository.findAll(sort)
                 .stream()
-                .map(TarefaDTO::new)
+                .map(TarefaMapper::toDTO)
                 .toList();
     }
-
 
     @Transactional
     public TarefaDTO update(Long id, TarefaDTO dados) {
@@ -46,8 +45,8 @@ public class TarefaService {
         tarefa.setStatus(StatusEnum.valueOf(dados.status()));
         tarefa.setPrioridade(PrioridadeEnum.valueOf(dados.prioridade()));
 
-        repository.save(tarefa);
-        return new TarefaDTO(tarefa);
+        tarefa = repository.save(tarefa);
+        return TarefaMapper.toDTO(tarefa);
     }
 
     @Transactional

@@ -19,12 +19,6 @@ public class Tarefa {
     private PrioridadeEnum prioridade;
 
     public Tarefa() {}
-    public Tarefa(TarefaDTO dados) {
-        this.nome = dados.nome();
-        this.descricao = dados.descricao();
-        this.status = StatusEnum.valueOf(dados.status().toString());
-        this.prioridade = PrioridadeEnum.valueOf(dados.prioridade());
-    }
 
     // Construtor privado para uso do Builder
     private Tarefa(Builder builder) {
