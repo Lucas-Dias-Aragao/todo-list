@@ -1,8 +1,6 @@
 package com.estudos.todolistservice.controller;
 
-import com.estudos.todolistservice.dto.TarefaResponseDTO;
-import com.estudos.todolistservice.entity.Tarefa;
-import com.estudos.todolistservice.exception.BusinessException;
+import com.estudos.todolistservice.dto.TarefaDTO;
 import com.estudos.todolistservice.service.TarefaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +17,28 @@ public class TarefaController {
     private TarefaService service;
 
     @PostMapping
-    public ResponseEntity<TarefaResponseDTO> create(@Valid @RequestBody Tarefa tarefa) {
-        TarefaResponseDTO response = service.create(tarefa);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<TarefaDTO> create(@Valid @RequestBody TarefaDTO dados) {
+        TarefaDTO tarefa = service.create(dados);
+        return ResponseEntity.ok().body(tarefa);
     }
 
     @GetMapping
-    List<Tarefa> list() {
-        return service.list();
+    public ResponseEntity<List<TarefaDTO>> list() {
+        List<TarefaDTO> tarefas = service.list();
+        return ResponseEntity.ok(tarefas);
     }
 
-    @PutMapping
-    ResponseEntity<TarefaResponseDTO> update(@Valid @RequestBody Tarefa tarefa) {
-        TarefaResponseDTO response = service.update(tarefa);
-        return ResponseEntity.ok(response);
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TarefaDTO> update(@PathVariable Long id, @Valid @RequestBody TarefaDTO dados) {
+        TarefaDTO dto = service.update(id, dados);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
-    List<Tarefa> delete(@PathVariable("id") Long id) {
-        return service.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

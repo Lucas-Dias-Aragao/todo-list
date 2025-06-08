@@ -1,10 +1,9 @@
 package com.estudos.todolistservice.entity;
 
+import com.estudos.todolistservice.dto.TarefaDTO;
 import com.estudos.todolistservice.enums.PrioridadeEnum;
 import com.estudos.todolistservice.enums.StatusEnum;
-import com.estudos.todolistservice.validation.annotation.EnumValid;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_tarefa")
@@ -12,13 +11,23 @@ public class Tarefa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "O nome da tarefa deve ser informado")
     private String nome;
     private String descricao;
-    @EnumValid(enumClass = StatusEnum.class, message = "Status inválido")
-    private String status;
-    @EnumValid(enumClass = PrioridadeEnum.class, message = "Prioridade inválida")
-    private String prioridade;
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
+    @Enumerated(EnumType.STRING)
+    private PrioridadeEnum prioridade;
+
+    public Tarefa() {}
+
+    // Construtor privado para uso do Builder
+    private Tarefa(Builder builder) {
+        this.id = builder.id;
+        this.nome = builder.nome;
+        this.descricao = builder.descricao;
+        this.status = builder.status;
+        this.prioridade = builder.prioridade;
+    }
 
     public Long getId() {
         return id;
@@ -40,19 +49,61 @@ public class Tarefa {
         this.descricao = descricao;
     }
 
-    public String getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 
-    public String getPrioridade() {
+    public PrioridadeEnum getPrioridade() {
         return prioridade;
     }
 
-    public void setPrioridade(String prioridade) {
+    public void setPrioridade(PrioridadeEnum prioridade) {
         this.prioridade = prioridade;
+    }
+
+    //Builder
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private String nome;
+        private String descricao;
+        private StatusEnum status;
+        private PrioridadeEnum prioridade;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder nome(String nome) {
+            this.nome = nome;
+            return this;
+        }
+
+        public Builder descricao(String descricao) {
+            this.descricao = descricao;
+            return this;
+        }
+
+        public Builder status(StatusEnum status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder prioridade(PrioridadeEnum prioridade) {
+            this.prioridade = prioridade;
+            return this;
+        }
+
+        public Tarefa build() {
+            return new Tarefa(this);
+        }
     }
 }
