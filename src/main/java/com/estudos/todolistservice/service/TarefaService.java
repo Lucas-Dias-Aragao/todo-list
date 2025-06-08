@@ -18,7 +18,7 @@ import java.util.List;
 public class TarefaService {
 
     @Autowired
-    private TarefaRepository repository;
+    protected TarefaRepository repository;
 
     @Transactional
     public TarefaDTO create(TarefaDTO dados) {
@@ -40,10 +40,10 @@ public class TarefaService {
         Tarefa tarefa = repository.findById(id)
                 .orElseThrow(() -> new BusinessException("Tarefa não encontrada"));
 
-        tarefa.setNome(dados.nome());
-        tarefa.setDescricao(dados.descricao());
-        tarefa.setStatus(StatusEnum.valueOf(dados.status()));
-        tarefa.setPrioridade(PrioridadeEnum.valueOf(dados.prioridade()));
+        tarefa.setNome(dados.getNome());
+        tarefa.setDescricao(dados.getDescricao());
+        tarefa.setStatus(StatusEnum.valueOf(dados.getStatus()));
+        tarefa.setPrioridade(PrioridadeEnum.valueOf(dados.getPrioridade()));
 
         tarefa = repository.save(tarefa);
         return TarefaMapper.toDTO(tarefa);
