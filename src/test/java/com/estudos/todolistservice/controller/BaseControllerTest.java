@@ -4,7 +4,6 @@ import com.estudos.todolistservice.dto.TarefaDTO;
 import com.estudos.todolistservice.entity.Tarefa;
 import com.estudos.todolistservice.enums.PrioridadeEnum;
 import com.estudos.todolistservice.enums.StatusEnum;
-import com.estudos.todolistservice.mapper.TarefaMapper;
 import com.estudos.todolistservice.repository.TarefaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -178,9 +178,54 @@ public class TarefaControllerTest extends BaseControllerTest {
                 assertEquals(tarefa.getNome(), response.getBody().get(0).getNome());
                 assertEquals(tarefa2.getNome(), response.getBody().get(1).getNome());
             }
+
+            @Test
+            @DisplayName("Deve retornar apenas tarefa com id buscado")
+            void deveRetornarUnicaTarefaPorId() {
+
+                var tarefa = createTarefa();
+
+                StringBuilder url = new StringBuilder(BASE_URL);
+                url.append("/" + tarefa.getId());
+
+                ResponseEntity<Tarefa> response = restTemplate.exchange(
+                        url.toString(),
+                        HttpMethod.GET,
+                        null,
+                        Tarefa.class
+                );
+
+                assertNotNull(response);
+                assertEquals(HttpStatus.OK, response.getStatusCode());
+                assertEquals(response.getBody().getId(), tarefa.getId());
+                assertEquals(response.getBody().getNome(), tarefa.getNome());
+
+            }
         }
 
+        @Nested
+        @DisplayName("Deve retornar status 400")
+        class Fail {
+            @Test
+            @DisplayName("Deve retornar mensagem de tarefa inexistente ao enviar um Id que não existe no banco")
+            void deveRetornarMensagemTarefaInexistente() {
 
+                StringBuilder url = new StringBuilder(BASE_URL);
+                url.append("/" + 99999L);
+
+                ResponseEntity<Map> response = restTemplate.exchange(
+                        url.toString(),
+                        HttpMethod.GET,
+                        null,
+                        Map.class
+                );
+
+                assertNotNull(response);
+                assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+                assertEquals(TAREFA_NAO_ENCONTRADA, response.getBody().get("mensagem"));
+            }
+
+        }
     }
 
     @Nested
