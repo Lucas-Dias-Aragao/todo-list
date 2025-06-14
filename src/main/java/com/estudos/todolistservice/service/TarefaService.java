@@ -56,4 +56,11 @@ public class TarefaService {
 
         tarefaRepository.delete(tarefa);
     }
+
+    public TarefaDTO findById(Long id) {
+        Tarefa tarefa = tarefaRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Tarefa não encontrada"));
+
+        return TarefaMapper.toDTO(tarefa);
+    }
 }
