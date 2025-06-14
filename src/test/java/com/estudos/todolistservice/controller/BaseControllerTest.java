@@ -4,6 +4,7 @@ import com.estudos.todolistservice.dto.TarefaDTO;
 import com.estudos.todolistservice.entity.Tarefa;
 import com.estudos.todolistservice.enums.PrioridadeEnum;
 import com.estudos.todolistservice.enums.StatusEnum;
+import com.estudos.todolistservice.mapper.TarefaMapper;
 import com.estudos.todolistservice.repository.TarefaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,16 +39,20 @@ public class BaseControllerTest {
         return tarefa;
     }
 
-    public Tarefa createTarefaInvalida() {
-        Tarefa tarefa = Tarefa.builder()
-                .descricao("Realizar testes")
-                .status(StatusEnum.EM_ANDAMENTO)
-                .prioridade(PrioridadeEnum.ALTA)
-                .build();
-        tarefa = tarefaRepository.save(tarefa);
+    public TarefaDTO createTarefaDTO() {
+        TarefaDTO dto = new TarefaDTO("Testar", "Realizar testes",
+                StatusEnum.PENDENTE, PrioridadeEnum.BAIXA);
+        return dto;
+    }
 
-        assertNotNull(tarefa);
+    public TarefaDTO createTarefaDTO(final String nome, final String descricao,
+                                     final StatusEnum status, final PrioridadeEnum prioridade) {
+        TarefaDTO dto = new TarefaDTO(nome, descricao, status, prioridade);
+        return dto;
+    }
 
-        return tarefa;
+    public TarefaDTO createTarefaDTO(final String nome, final String descricao) {
+        TarefaDTO dto = new TarefaDTO(nome, descricao, StatusEnum.PENDENTE, PrioridadeEnum.MEDIA);
+        return dto;
     }
 }
