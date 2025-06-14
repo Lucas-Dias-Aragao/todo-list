@@ -1,5 +1,6 @@
 package com.estudos.todolistservice.dto;
 
+import com.estudos.todolistservice.entity.Tarefa;
 import com.estudos.todolistservice.enums.PrioridadeEnum;
 import com.estudos.todolistservice.enums.StatusEnum;
 import com.estudos.todolistservice.validation.annotation.EnumValid;
@@ -9,7 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter @Setter
+@Getter
+@Setter
 public class TarefaDTO {
     private Long id;
 
@@ -29,4 +31,11 @@ public class TarefaDTO {
         this(null, nome, descricao, status.name(), prioridade.name());
     }
 
+    public TarefaDTO(Tarefa tarefa) {
+        this.id = tarefa.getId();
+        this.nome = tarefa.getNome();
+        this.descricao = tarefa.getDescricao();
+        this.status = String.valueOf(tarefa.getStatus());
+        this.prioridade = String.valueOf(tarefa.getPrioridade());
+    }
 }

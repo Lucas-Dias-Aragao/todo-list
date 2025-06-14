@@ -41,4 +41,10 @@ public class TarefaController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TarefaDTO> findTarefaById(@PathVariable Long id) {
+        TarefaDTO tarefa = service.findById(id);
+        return ResponseEntity.ok(tarefa);
+    }
+
 }

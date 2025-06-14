@@ -18,18 +18,18 @@ import java.util.List;
 public class TarefaService {
 
     @Autowired
-    protected TarefaRepository repository;
+    protected TarefaRepository tarefaRepository;
 
     @Transactional
     public TarefaDTO create(TarefaDTO dados) {
         Tarefa tarefa = TarefaMapper.toEntity(dados);
-        tarefa = repository.save(tarefa);
+        tarefa = tarefaRepository.save(tarefa);
         return TarefaMapper.toDTO(tarefa);
     }
 
     public List<TarefaDTO> list() {
         Sort sort = Sort.by("prioridade").descending().and(Sort.by("nome").ascending());
-        return repository.findAll(sort)
+        return tarefaRepository.findAll(sort)
                 .stream()
                 .map(TarefaMapper::toDTO)
                 .toList();
@@ -37,7 +37,7 @@ public class TarefaService {
 
     @Transactional
     public TarefaDTO update(Long id, TarefaDTO dados) {
-        Tarefa tarefa = repository.findById(id)
+        Tarefa tarefa = tarefaRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Tarefa não encontrada"));
 
         tarefa.setNome(dados.getNome());
@@ -45,15 +45,22 @@ public class TarefaService {
         tarefa.setStatus(StatusEnum.valueOf(dados.getStatus()));
         tarefa.setPrioridade(PrioridadeEnum.valueOf(dados.getPrioridade()));
 
-        tarefa = repository.save(tarefa);
+        tarefa = tarefaRepository.save(tarefa);
         return TarefaMapper.toDTO(tarefa);
     }
 
     @Transactional
     public void delete(Long id) {
-        Tarefa tarefa = repository.findById(id)
+        Tarefa tarefa = tarefaRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Tarefa não encontrada"));
 
-        repository.delete(tarefa);
+        tarefaRepository.delete(tarefa);
+    }
+
+    public TarefaDTO findById(Long id) {
+        Tarefa tarefa = tarefaRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Tarefa não encontrada"));
+
+        return TarefaMapper.toDTO(tarefa);
     }
 }
